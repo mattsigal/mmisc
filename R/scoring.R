@@ -42,11 +42,11 @@
 #'
 
 scoring <- function(dat, norm = "overall", Age = "AGE", Gender = "GENDER"){
-    tmpDat <- dat[, -which(names(dat) %in% c(Age, Gender))]
-    demos <- dat[, which(names(dat) %in% c(Age, Gender))]
-    out <- tmpDat
 
     if (norm == "overall"){
+      tmpDat <- dat[, -which(names(dat) %in% c(Age, Gender))]
+      out <- tmpDat
+
       for (i in 1L:length(tmpDat)){
         scale <- names(tmpDat)[i]
         scalemean <- scoring.table[scoring.table$SCALE == scale & scoring.table$AGE == "overall", 4]
@@ -56,6 +56,10 @@ scoring <- function(dat, norm = "overall", Age = "AGE", Gender = "GENDER"){
       }
      return(out)
    } else if (norm == "agegender"){
+     tmpDat <- dat[, -which(names(dat) %in% c(Age, Gender))]
+     out <- tmpDat
+     demos <- dat[, which(names(dat) %in% c(Age, Gender))]
+
       for (i in 1L:length(tmpDat)){
         scale <- names(tmpDat)[i]
         for (j in 1L:nrow(tmpDat)){
