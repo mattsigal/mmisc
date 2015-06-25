@@ -14,6 +14,8 @@ exceptions(dat, normedDat, exceptions.list = NULL, norm = "overall",
 
 \item{exceptions.list}{An R dataframe object pertaining to the list of exceptions to be applied.}
 
+\item{norm}{A character scalar, either "overall" or "agegender", depending if scoring should be done based upon overall values or age/gender specific norms.}
+
 \item{Age}{A character vector of length 1, used to indicate the name of the Age variable in dat.}
 
 \item{Gender}{A character vector of length 1, used to indicate the name of the Gender variable in dat.}

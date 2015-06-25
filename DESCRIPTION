@@ -1,11 +1,19 @@
 Package: mmisc
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1
+Title: Matt's Miscellaneous Functions for MHS
+Version: 0.0.2
 Date: 2015-05-15
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Authors@R: c(person("Matthew", "Sigal", role = c("aut", "cre"),
+		     email = "matthewsigal@gmail.com"))
+Author: Matthew Sigal [aut, cre]
+Maintainer: Matthew Sigal <matthewsigal@gmail.com>
+Description: This package contains a set of functions written to aid in common tasks performed at MHS (Multi-Health Systems) Publishing.
+License: GPL (>= 3)
 LazyData: TRUE
+Depends: R (>= 3.1.0)
+Suggests:
+  knitr,
+  testthat
+URL: https://github.com/mattsigal/mmisc
+BugReports: https://github.com/mattsigal/mmisc/issues
 VignetteBuilder: knitr

@@ -1,5 +1,5 @@
 ---
-title: "Using stratifiedNorm() to obtain normative sample"
+title: "Using `stratifiedNorm()` to obtain an appropriate normative sample"
 author: "Matthew Sigal"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

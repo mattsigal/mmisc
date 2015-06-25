@@ -3,19 +3,21 @@
 #' This function creates a stratified random sample, given an arbitrary number of
 #' factors and levels within those factors.
 #'
-#' @param dat data.frame object
+#' @param dat An R data.frame object
 #' @param strata character; a named vector indicating the strata variables
 #' @param observations numeric; number of cases to sample from each strata
 #' @param return.grid logical; return grid of factor combintions?
 #' @param full.data logical; return the original dataset with a new logical
 #'   variable (named from 'full.data.id') indicating whether the row was selected
-#' @param full.data.id; a string pertaining the variable name used when 'full.data=TRUE'
+#' @param full.data.id a string pertaining the variable name used when 'full.data=TRUE'
+#' @return An R data.frame object, either pertaining to a grid of factor combinations or the stratified sample
 #'
 #' @examples
 #' \dontrun{
 #' dat <- data.frame(Gender=sample(c("Male", "Female"), size = 1500, replace = TRUE),
 #'                AgeGroup=sample(c("18-39", "40-49", "50+"), size = 1500, replace = TRUE),
-#'                Relationship=sample(c("Direct", "Manager", "Coworker", "Friend"), size = 1500, replace = TRUE),
+#'                Relationship=sample(c("Direct", "Manager", "Coworker", "Friend"),
+#'                     size = 1500, replace = TRUE),
 #'                X=rnorm(n=1500, mean=0, sd=1),
 #'                Y=rnorm(n=1500, mean=0, sd=1),
 #'                Z=rnorm(n=1500, mean=0, sd=1))

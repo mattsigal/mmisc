@@ -8,7 +8,7 @@ stratifiedNorm(dat, strata, observations = 0, return.grid = FALSE,
   full.data = FALSE, full.data.id = "sampled")
 }
 \arguments{
-\item{dat}{data.frame object}
+\item{dat}{An R data.frame object}
 
 \item{strata}{character; a named vector indicating the strata variables}
 
@@ -19,7 +19,10 @@ stratifiedNorm(dat, strata, observations = 0, return.grid = FALSE,
 \item{full.data}{logical; return the original dataset with a new logical
 variable (named from 'full.data.id') indicating whether the row was selected}
 
-\item{full.data.id;}{a string pertaining the variable name used when 'full.data=TRUE'}
+\item{full.data.id}{a string pertaining the variable name used when 'full.data=TRUE'}
+}
+\value{
+An R data.frame object, either pertaining to a grid of factor combinations or the stratified sample
 }
 \description{
 This function creates a stratified random sample, given an arbitrary number of
@@ -29,7 +32,8 @@ factors and levels within those factors.
 \dontrun{
 dat <- data.frame(Gender=sample(c("Male", "Female"), size = 1500, replace = TRUE),
                AgeGroup=sample(c("18-39", "40-49", "50+"), size = 1500, replace = TRUE),
-               Relationship=sample(c("Direct", "Manager", "Coworker", "Friend"), size = 1500, replace = TRUE),
+               Relationship=sample(c("Direct", "Manager", "Coworker", "Friend"),
+                    size = 1500, replace = TRUE),
                X=rnorm(n=1500, mean=0, sd=1),
                Y=rnorm(n=1500, mean=0, sd=1),
                Z=rnorm(n=1500, mean=0, sd=1))

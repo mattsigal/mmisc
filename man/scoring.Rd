@@ -4,10 +4,13 @@
 \alias{scoring}
 \title{Normative Scoring}
 \usage{
-scoring(dat, norm = "overall", Age = "AGE", Gender = "GENDER")
+scoring(dat, scoring.table = NULL, norm = "overall", Age = "AGE",
+  Gender = "GENDER")
 }
 \arguments{
 \item{dat}{An R dataframe object}
+
+\item{scoring.table}{An R dataframe object that provides means and standard deviations for each normative option. See example section for details.}
 
 \item{norm}{A character vector of length 1. Use "overall" for overall norms, and "agegender" for age and gender specific norms.}
 

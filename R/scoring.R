@@ -10,6 +10,7 @@
 #' overall norms, the AGE and GENDER values should be the character string "overall". See the example code for more details.
 #'
 #' @param dat An R dataframe object
+#' @param scoring.table An R dataframe object that provides means and standard deviations for each normative option. See example section for details.
 #' @param norm A character vector of length 1. Use "overall" for overall norms, and "agegender" for age and gender specific norms.
 #' @param Age A character vector of length 1, used to indicate the name of the Age variable in dat.
 #' @param Gender A character vector of length 1, used to indicate the name of the Gender variable in dat.
@@ -41,7 +42,10 @@
 #' @seealso \code{\link{scoring}}
 #'
 
-scoring <- function(dat, norm = "overall", Age = "AGE", Gender = "GENDER"){
+scoring <- function(dat, scoring.table = NULL, norm = "overall", Age = "AGE", Gender = "GENDER"){
+
+    if (is.null(scoring.table)) return("Please supply the scoring table to scoring.table.")
+
     tmpDat <- dat[, -which(names(dat) %in% c(Age, Gender))]
     demos <- dat[, which(names(dat) %in% c(Age, Gender))]
     out <- tmpDat
@@ -60,11 +64,11 @@ scoring <- function(dat, norm = "overall", Age = "AGE", Gender = "GENDER"){
         scale <- names(tmpDat)[i]
         for (j in 1L:nrow(tmpDat)){
           scalemean <- scoring.table[scoring.table$SCALE == scale &
-                                       scoring.table$AGE == demos[j, Age] &
-                                       scoring.table$GENDER == demos[j, Gender], 4]
+                                       scoring.table$Age == demos[j, Age] &
+                                       scoring.table$Gender == demos[j, Gender], 4]
           scalesd <- scoring.table[scoring.table$SCALE == scale &
-                                       scoring.table$AGE == demos[j, Age] &
-                                       scoring.table$GENDER == demos[j, Gender], 5]
+                                       scoring.table$Age == demos[j, Age] &
+                                       scoring.table$Gender == demos[j, Gender], 5]
           std.score <- 100 + 15 * ((tmpDat[j,i] - scalemean) / scalesd)
           out[j,i] <- std.score
         }

@@ -19,6 +19,7 @@
 #' @param dat An R dataframe object pertaining to the raw data.
 #' @param normedDat  An R dataframe object pertaining to the normed dataset.
 #' @param exceptions.list An R dataframe object pertaining to the list of exceptions to be applied.
+#' @param norm A character scalar, either "overall" or "agegender", depending if scoring should be done based upon overall values or age/gender specific norms.
 #' @param Age A character vector of length 1, used to indicate the name of the Age variable in dat.
 #' @param Gender A character vector of length 1, used to indicate the name of the Gender variable in dat.
 #' @param maxVal A scalar indicating the value at which to "cap" scales. All values greater than maxVal are set to maxVal.
@@ -56,7 +57,7 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
   out <- normedDat
 
   if (norm == "overall"){
-    exceptions <- subset(exceptions.list, AGE == "overall" & GENDER == "overall")
+    exceptions <- subset(exceptions.list, Age == "overall" & Gender == "overall")
     for (i in 1L:nrow(exceptions)){
       out[,exceptions$SCALE[i]] <- ifelse(dat[,exceptions$SCALE[i]] == exceptions$RAW[i], exceptions$SS[i], out[,exceptions$SCALE[i]])
     }
@@ -64,10 +65,10 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
     out[out <= 0] <- 0
     return(out)
   } else if (norm == "agegender"){
-    exceptions <- subset(exceptions.list, AGE != "overall" & GENDER != "overall")
+    exceptions <- subset(exceptions.list, Age != "overall" & Gender != "overall")
     for (i in 1L:nrow(exceptions)){
       for (j in 1L:nrow(dat)){
-        if(exceptions$AGE[i] == dat[j, Age] & exceptions$GENDER[i] == dat[j, Gender] & dat[j, exceptions$SCALE[i]] == exceptions$RAW[i]){
+        if(exceptions$Age[i] == dat[j, Age] & exceptions$Gender[i] == dat[j, Gender] & dat[j, exceptions$SCALE[i]] == exceptions$RAW[i]){
           out[j, exceptions$SCALE[i]] <- exceptions$SS[i]
         }
       }
