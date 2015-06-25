@@ -54,7 +54,6 @@ scoring <- function(dat, scoring.table = NULL, norm = "overall", Age = NULL, Gen
 
     if (norm == "overall"){
       for (i in 1L:length(tmpDat)){
-        browser()
         scale <- names(tmpDat)[i]
         scalemean <- scoring.table$MEAN[scoring.table == scale]
         scalesd <- scoring.table$SD[scoring.table == scale]
