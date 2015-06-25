@@ -5,7 +5,7 @@
 \title{Apply Exceptions to a Dataframe}
 \usage{
 exceptions(dat, normedDat, exceptions.list = NULL, norm = "overall",
-  Age = "AGE", Gender = "GENDER", maxVal = 132)
+  Age = NULL, Gender = NULL, maxVal = 132)
 }
 \arguments{
 \item{dat}{An R dataframe object pertaining to the raw data.}
