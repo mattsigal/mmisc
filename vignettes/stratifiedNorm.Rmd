@@ -1,10 +1,10 @@
 ---
-title: "Using `stratifiedNorm()` to obtain an appropriate normative sample"
+title: "Using stratifiedNorm() to obtain an appropriate normative sample"
 author: "Matthew Sigal"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{stratifiedNorm}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
