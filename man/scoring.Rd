@@ -4,19 +4,19 @@
 \alias{scoring}
 \title{Normative Scoring}
 \usage{
-scoring(dat, scoring.table = NULL, norm = "overall", Age = "AGE",
-  Gender = "GENDER")
+scoring(dat, scoring.table = NULL, norm = "overall", Age = NULL,
+  Gender = NULL)
 }
 \arguments{
-\item{dat}{An R dataframe object}
+\item{dat}{An R dataframe object containg the scale scores}
 
 \item{scoring.table}{An R dataframe object that provides means and standard deviations for each normative option. See example section for details.}
 
 \item{norm}{A character vector of length 1. Use "overall" for overall norms, and "agegender" for age and gender specific norms.}
 
-\item{Age}{A character vector of length 1, used to indicate the name of the Age variable in dat.}
+\item{Age}{A vector pertaining to the Age variable of length N.}
 
-\item{Gender}{A character vector of length 1, used to indicate the name of the Gender variable in dat.}
+\item{Gender}{A vector pertaining to the Gender variable of length N.}
 }
 \value{
 An R dataframe object with N rows and K columns, where K is the number of scales included in dat.
@@ -53,8 +53,9 @@ dat <- data.frame(AGE = sample(c("Young","Old"), size = n, replace = TRUE),
                   D = rnorm(n, mean = 100, sd = 10),
                   E = rnorm(n, mean = 100, sd = 10))
 
-overall <- scoring(dat, norm = "overall")
-agegen <- scoring(dat, norm = "agegender")
+overall <- scoring(dat[,3:7], scoring.table = scoring.table[1:5,], norm = "overall")
+agegen <- scoring(dat[,3:7], scoring.table = scoring.table[6:25,], norm = "agegender",
+                  Age = dat[,1], Gender = dat[,2])
 }
 }
 \seealso{

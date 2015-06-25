@@ -27,13 +27,13 @@
 #' @examples
 #' \dontrun{
 #' set.seed(77)
-#' scoring.table <- data.frame(SCALE = rep(LETTERS[1:5], 5),
-#'                             AGE = c(rep("overall", 5),
+#' exceptions.list <- data.frame(SCALE = rep(LETTERS[1:5], 5),
+#'                               AGE = c(rep("overall", 5),
 #'                                     rep(c("Young", "Old"), each = 5),
 #'                                     rep(c("Young", "Old"), each = 5)),
-#'                             GENDER = c(rep("overall", 5), rep(c("Male", "Female"), each = 10)),
-#'                             MEAN = rnorm(25, mean = 100, sd = 10),
-#'                             SD = rnorm(25, mean = 10, sd = 3),
+#'                               GENDER = c(rep("overall", 5), rep(c("Male", "Female"), each = 10)),
+#'                               RAW = rnorm(25, mean = 100, sd = 10),
+#'                               SS = rnorm(25, mean = 10, sd = 3),
 #'                             stringsAsFactors = FALSE)
 #' set.seed(78)
 #' n <- 500
@@ -45,8 +45,9 @@
 #'                   D = rnorm(n, mean = 100, sd = 10),
 #'                   E = rnorm(n, mean = 100, sd = 10))
 #'
-#' overall <- scoring(dat, norm = "overall")
-#' agegen <- scoring(dat, norm = "agegender")
+#' overall <- exceptions(dat[,3:7], overall, exceptions.list[1:5,], norm = "overall")
+#' agegen <- exceptions(dat[,3:7], agegen, exceptions.list[6:25,], norm = "agegender",
+#'                   Age = dat[,1], Gender = dat[,2])
 #' }
 #' @seealso \code{\link{scoring}}
 #'
@@ -57,24 +58,21 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
   out <- normedDat
 
   if (norm == "overall"){
-    exceptions <- subset(exceptions.list, Age == "overall" & Gender == "overall")
+    exceptions <- subset(exceptions.list, AGE == "overall" & GENDER == "overall")
     for (i in 1L:nrow(exceptions)){
       out[,exceptions$SCALE[i]] <- ifelse(dat[,exceptions$SCALE[i]] == exceptions$RAW[i], exceptions$SS[i], out[,exceptions$SCALE[i]])
     }
-    out[out > maxVal] <- maxVal
-    out[out <= 0] <- 0
-    return(out)
   } else if (norm == "agegender"){
-    exceptions <- subset(exceptions.list, Age != "overall" & Gender != "overall")
+    exceptions <- subset(exceptions.list, AGE != "overall" & GENDER != "overall")
     for (i in 1L:nrow(exceptions)){
       for (j in 1L:nrow(dat)){
-        if(exceptions$Age[i] == dat[j, Age] & exceptions$Gender[i] == dat[j, Gender] & dat[j, exceptions$SCALE[i]] == exceptions$RAW[i]){
+        if(exceptions$AGE[i] == Age[j] & exceptions$GENDER[i] == Gender[j] & dat[j, exceptions$SCALE[i]] == exceptions$RAW[i]){
           out[j, exceptions$SCALE[i]] <- exceptions$SS[i]
         }
       }
     }
+    } else return("Set norm argument to either overall or agegender.")
     out[out > maxVal] <- maxVal
     out[out <= 0] <- 0
     return(out)
-    } else return("Set norm argument to either overall or agegender.")
 }

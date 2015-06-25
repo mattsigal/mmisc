@@ -9,11 +9,11 @@
 #' called SCALE (with scale names that match those in `dat`), AGE, GENDER, MEAN, and SE.  For the rows pertaining to
 #' overall norms, the AGE and GENDER values should be the character string "overall". See the example code for more details.
 #'
-#' @param dat An R dataframe object
+#' @param dat An R dataframe object containg the scale scores
 #' @param scoring.table An R dataframe object that provides means and standard deviations for each normative option. See example section for details.
 #' @param norm A character vector of length 1. Use "overall" for overall norms, and "agegender" for age and gender specific norms.
-#' @param Age A character vector of length 1, used to indicate the name of the Age variable in dat.
-#' @param Gender A character vector of length 1, used to indicate the name of the Gender variable in dat.
+#' @param Age A vector pertaining to the Age variable of length N.
+#' @param Gender A vector pertaining to the Gender variable of length N.
 #' @return An R dataframe object with N rows and K columns, where K is the number of scales included in dat.
 #' @examples
 #' \dontrun{
@@ -36,25 +36,27 @@
 #'                   D = rnorm(n, mean = 100, sd = 10),
 #'                   E = rnorm(n, mean = 100, sd = 10))
 #'
-#' overall <- scoring(dat, norm = "overall")
-#' agegen <- scoring(dat, norm = "agegender")
+#' overall <- scoring(dat[,3:7], scoring.table = scoring.table[1:5,], norm = "overall")
+#' agegen <- scoring(dat[,3:7], scoring.table = scoring.table[6:25,], norm = "agegender",
+#'                   Age = dat[,1], Gender = dat[,2])
 #' }
 #' @seealso \code{\link{scoring}}
 #'
 
-scoring <- function(dat, scoring.table = NULL, norm = "overall", Age = "AGE", Gender = "GENDER"){
+scoring <- function(dat, scoring.table = NULL, norm = "overall", Age = NULL, Gender = NULL){
 
     if (is.null(scoring.table)) return("Please supply the scoring table to scoring.table.")
+    if (norm == "agegender" & is.null(Age)) return ("Please supply age variable")
+    if (norm == "agegender" & is.null(Gender)) return ("Please supply gender variable")
 
-    tmpDat <- dat[, -which(names(dat) %in% c(Age, Gender))]
-    demos <- dat[, which(names(dat) %in% c(Age, Gender))]
+    tmpDat <- dat
     out <- tmpDat
 
     if (norm == "overall"){
       for (i in 1L:length(tmpDat)){
         scale <- names(tmpDat)[i]
-        scalemean <- scoring.table[scoring.table$SCALE == scale & scoring.table$AGE == "overall", 4]
-        scalesd <- scoring.table[scoring.table$SCALE == scale & scoring.table$AGE == "overall", 5]
+        scalemean <- scoring.table$MEAN
+        scalesd <- scoring.table$SD
         std.score <- 100 + 15 * ((tmpDat[,i] - scalemean) / scalesd)
         out[,i] <- std.score
       }
@@ -64,11 +66,11 @@ scoring <- function(dat, scoring.table = NULL, norm = "overall", Age = "AGE", Ge
         scale <- names(tmpDat)[i]
         for (j in 1L:nrow(tmpDat)){
           scalemean <- scoring.table[scoring.table$SCALE == scale &
-                                       scoring.table$Age == demos[j, Age] &
-                                       scoring.table$Gender == demos[j, Gender], 4]
+                                       scoring.table$AGE == Age[j] &
+                                       scoring.table$GENDER == Gender[j], "MEAN"]
           scalesd <- scoring.table[scoring.table$SCALE == scale &
-                                       scoring.table$Age == demos[j, Age] &
-                                       scoring.table$Gender == demos[j, Gender], 5]
+                                       scoring.table$AGE == Age[j] &
+                                       scoring.table$GENDER == Gender[j], "SD"]
           std.score <- 100 + 15 * ((tmpDat[j,i] - scalemean) / scalesd)
           out[j,i] <- std.score
         }

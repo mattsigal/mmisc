@@ -46,13 +46,13 @@ See the example code for more details.
 \examples{
 \dontrun{
 set.seed(77)
-scoring.table <- data.frame(SCALE = rep(LETTERS[1:5], 5),
-                            AGE = c(rep("overall", 5),
+exceptions.list <- data.frame(SCALE = rep(LETTERS[1:5], 5),
+                              AGE = c(rep("overall", 5),
                                     rep(c("Young", "Old"), each = 5),
                                     rep(c("Young", "Old"), each = 5)),
-                            GENDER = c(rep("overall", 5), rep(c("Male", "Female"), each = 10)),
-                            MEAN = rnorm(25, mean = 100, sd = 10),
-                            SD = rnorm(25, mean = 10, sd = 3),
+                              GENDER = c(rep("overall", 5), rep(c("Male", "Female"), each = 10)),
+                              RAW = rnorm(25, mean = 100, sd = 10),
+                              SS = rnorm(25, mean = 10, sd = 3),
                             stringsAsFactors = FALSE)
 set.seed(78)
 n <- 500
@@ -64,8 +64,9 @@ dat <- data.frame(AGE = sample(c("Young","Old"), size = n, replace = TRUE),
                   D = rnorm(n, mean = 100, sd = 10),
                   E = rnorm(n, mean = 100, sd = 10))
 
-overall <- scoring(dat, norm = "overall")
-agegen <- scoring(dat, norm = "agegender")
+overall <- exceptions(dat[,3:7], overall, exceptions.list[1:5,], norm = "overall")
+agegen <- exceptions(dat[,3:7], agegen, exceptions.list[6:25,], norm = "agegender",
+                  Age = dat[,1], Gender = dat[,2])
 }
 }
 \seealso{
