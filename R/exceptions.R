@@ -66,6 +66,7 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
     exceptions <- subset(exceptions.list, AGE != "overall" & GENDER != "overall")
     for (i in 1L:nrow(exceptions)){
       for (j in 1L:nrow(dat)){
+        browser()
         if(exceptions$AGE[i] == Age[j] & exceptions$GENDER[i] == Gender[j] & dat[j, exceptions$SCALE[i]] == exceptions$RAW[i]){
           out[j, exceptions$SCALE[i]] <- exceptions$SS[i]
         }
