@@ -19,5 +19,5 @@ clean_render <- function(toRender = NULL, outDir = NULL, extension = ".pdf") {
       sep = "", file = "tempRender.R")
   devtools::clean_source('tempRender.R', quiet = TRUE)
   file.remove("tempRender.R")
-  return()
+  return("Render complete.")
 }
