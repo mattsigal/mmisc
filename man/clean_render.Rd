@@ -10,6 +10,8 @@ clean_render(toRender = NULL, outDir = NULL, extension = ".pdf")
 \item{toRender}{A string pertaining to the Rmd file to be rendered (no extension)}
 
 \item{outDir}{The directory rendered reports should be saved to}
+
+\item{extension}{A string pertaining to the extension to use for the knit report, default is .pdf.}
 }
 \description{
 \code{clean_render} is a utility function for knitting embedded R Markdown documents. This

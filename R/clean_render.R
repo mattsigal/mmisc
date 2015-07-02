@@ -6,6 +6,7 @@
 #'
 #' @param toRender A string pertaining to the Rmd file to be rendered (no extension)
 #' @param outDir The directory rendered reports should be saved to
+#' @param extension A string pertaining to the extension to use for the knit report, default is .pdf.
 #' @return NULL
 
 clean_render <- function(toRender = NULL, outDir = NULL, extension = ".pdf") {
