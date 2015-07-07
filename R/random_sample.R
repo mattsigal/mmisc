@@ -1,8 +1,8 @@
-#' Random Sampling
+#' Creating Exploratory and Confirmatory Samples with Stratified Random Sampling
 #'
 #' \code{random_sample} returns a dataframe.
 #'
-#' This function is a slightly modified version of Ananda Mahto's `stratified` [gist](https://gist.github.com/mrdwab/6424112).
+#' This function is a slightly modified version of Ananda Mahto's `stratified` gist (https://gist.github.com/mrdwab/6424112).
 #' Primary use is to generate exploratory and confirmatory samples, with the size = .5, and bothsets = TRUE.
 #'
 #' @param df An R dataframe object
@@ -15,15 +15,16 @@
 #' variable was "Group", with values, 'A', 'B', and 'C', you could use `select = list(Group = c("A", C"))` to only sample from
 #' `A` and `C`.
 #' @param replace Should sampling be done with replacement?
-#' @param bothSets If size is a scalar with a value less than one, should both sets be returned? Use `bothSets = TRUE` to
+#' @param bothSets If `size` is a scalar with a value less than one, should both sets be returned? Use `bothSets = TRUE` to
 #' return both exploratory and confirmatory samples
-#' @return An R dataframe object
+#' @return If bothSets is TRUE, a list of length two, with each entry being an R dataframe object; otherwise, an R
+#' dataframe object.
 #' @examples
 #' \dontrun{
 #'  data(Cowles, package = "car")
 #'  dat <- random_sample(Cowles, group = c("sex", "volunteer"), size = .5, bothSets = TRUE)
 #' }
-#' @seealso \code{\link{scoring}}
+#' @seealso \code{\link{scoring}}, \code{\link{stratified_norm}}
 #'
 
 random_sample <- function(df, group, size, select = NULL, replace = FALSE, bothSets = FALSE) {

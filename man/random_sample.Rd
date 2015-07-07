@@ -2,7 +2,7 @@
 % Please edit documentation in R/random_sample.R
 \name{random_sample}
 \alias{random_sample}
-\title{Random Sampling}
+\title{Creating Exploratory and Confirmatory Samples with Stratified Random Sampling}
 \usage{
 random_sample(df, group, size, select = NULL, replace = FALSE,
   bothSets = FALSE)
@@ -23,17 +23,18 @@ variable was "Group", with values, 'A', 'B', and 'C', you could use `select = li
 
 \item{replace}{Should sampling be done with replacement?}
 
-\item{bothSets}{If size is a scalar with a value less than one, should both sets be returned? Use `bothSets = TRUE` to
+\item{bothSets}{If `size` is a scalar with a value less than one, should both sets be returned? Use `bothSets = TRUE` to
 return both exploratory and confirmatory samples}
 }
 \value{
-An R dataframe object
+If bothSets is TRUE, a list of length two, with each entry being an R dataframe object; otherwise, an R
+dataframe object.
 }
 \description{
 \code{random_sample} returns a dataframe.
 }
 \details{
-This function is a slightly modified version of Ananda Mahto's `stratified` [gist](https://gist.github.com/mrdwab/6424112).
+This function is a slightly modified version of Ananda Mahto's `stratified` gist (https://gist.github.com/mrdwab/6424112).
 Primary use is to generate exploratory and confirmatory samples, with the size = .5, and bothsets = TRUE.
 }
 \examples{
@@ -43,6 +44,6 @@ Primary use is to generate exploratory and confirmatory samples, with the size =
 }
 }
 \seealso{
-\code{\link{scoring}}
+\code{\link{scoring}}, \code{\link{stratified_norm}}
 }
 

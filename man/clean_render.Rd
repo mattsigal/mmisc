@@ -16,6 +16,7 @@ clean_render(toRender = NULL, outDir = NULL, extension = ".pdf")
 \description{
 \code{clean_render} is a utility function for knitting embedded R Markdown documents. This
 circumvents the write access error that typically occurs if you call `rmarkdown::render()`
-from within an Rmarkdown document.
+from within an Rmarkdown document by opening a new instance of R to render the sub-document,
+rendering it, and then deleting the temporary file.
 }
 

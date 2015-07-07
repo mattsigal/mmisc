@@ -10,9 +10,9 @@
 
 <meta name="author" content="Matthew Sigal" />
 
-<meta name="date" content="2015-06-25" />
+<meta name="date" content="2015-07-07" />
 
-<title>Using stratifiedNorm() to obtain an appropriate normative sample</title>
+<title>Using stratified_norm() to obtain an appropriate normative sample</title>
 
 
 
@@ -52,13 +52,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 
 <div id="header">
-<h1 class="title">Using stratifiedNorm() to obtain an appropriate normative sample</h1>
+<h1 class="title">Using stratified_norm() to obtain an appropriate normative sample</h1>
 <h4 class="author"><em>Matthew Sigal</em></h4>
-<h4 class="date"><em>2015-06-25</em></h4>
+<h4 class="date"><em>2015-07-07</em></h4>
 </div>
 
 
-<p>This report describes how to use <code>stratifiedNorm()</code> to create a stratified random sample, given an arbitrary number of factors. The function is available within the <code>mmisc</code> package on GitHub:</p>
+<p>This report describes how to use <code>stratified_norm()</code> to create a stratified random sample, given an arbitrary number of factors. The function is available within the <code>mmisc</code> package on GitHub:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">'devtools'</span>)
 <span class="kw">install_github</span>(<span class="st">&quot;mattsigal/mmisc&quot;</span>)</code></pre>
 <p>Once <code>mmisc</code> has been downloaded, load the package as you would any other:</p>
@@ -80,9 +80,9 @@ dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class
 ##  $ X           : num  -1.478 0.328 0.149 -0.241 -0.759 ...
 ##  $ Y           : num  0.291 -0.403 -0.557 1.615 2.105 ...
 ##  $ Z           : num  -0.4025 1.1505 -0.0306 0.3641 -1.0688 ...</code></pre>
-<p><code>stratifiedNorm()</code> has 6 inputs:</p>
+<p><code>stratified_norm()</code> has 6 inputs:</p>
 <blockquote>
-<p><code>stratifiedNorm(dat, strata, observations=0, return.grid=FALSE, full.data=FALSE, full.data.id=&quot;sampled&quot;)</code></p>
+<p><code>stratified_norm(dat, strata, observations=0, return.grid=FALSE, full.data=FALSE, full.data.id=&quot;sampled&quot;)</code></p>
 </blockquote>
 <ol style="list-style-type: decimal">
 <li><code>dat</code>: a data.frame object.</li>
@@ -92,12 +92,12 @@ dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class
 <li><code>full.data</code>: logical, if <code>TRUE</code> will return the full dataset, otherwise will only return the sampled data.</li>
 <li><code>full.data.id</code>: used if <code>full.data = TRUE</code>, indicates the name of the vector added to the data.frame to indicate the observation was sampled.</li>
 </ol>
-<div id="using-stratifiednorm" class="section level1">
-<h1>Using stratifiedNorm()</h1>
+<div id="using-stratified_norm" class="section level1">
+<h1>Using stratified_norm()</h1>
 <p>First, we create our strata variable. For this dataset, the relevant factors are: <code>Gender</code>, <code>AgeGroup</code>, and <code>Relationship</code>. Note: the input order will affect the ordering of the contingency table!</p>
 <pre class="sourceCode r"><code class="sourceCode r">strata =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;AgeGrp&quot;</span>, <span class="st">&quot;Relationship&quot;</span>)</code></pre>
 <p>Next, let’s investigate the ordering of the variables:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">stratifiedNorm</span>(dat, strata, <span class="dt">return.grid =</span> <span class="ot">TRUE</span>), <span class="dt">n =</span> <span class="dv">14</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">stratified_norm</span>(dat, strata, <span class="dt">return.grid =</span> <span class="ot">TRUE</span>), <span class="dt">n =</span> <span class="dv">14</span>)
 ##    Gender AgeGrp Relationship Observations
 ## 1  Female  18-39     Coworker            0
 ## 2    Male  18-39     Coworker            0
@@ -116,8 +116,8 @@ dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class
 <p>When Relationship is entered last, it actually is ordered first (e.g., the first 6 rows of the contingency table refer to Relationship - Direct). Of course, the factors can be entered in a different order.</p>
 <p>Now that we know the order the variables are entered in, we can define our <code>observations</code> vector, or how many people we want from each combination.</p>
 <pre class="sourceCode r"><code class="sourceCode r">samples &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">36</span>,<span class="dv">34</span>,<span class="dv">72</span>,<span class="dv">58</span>,<span class="dv">47</span>,<span class="dv">38</span>,<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">15</span>,<span class="dv">22</span>,<span class="dv">17</span>,<span class="dv">10</span>,<span class="dv">24</span>,<span class="dv">28</span>,<span class="dv">11</span>,<span class="dv">27</span>,<span class="dv">15</span>,<span class="dv">25</span>,<span class="dv">72</span>,<span class="dv">70</span>,<span class="dv">52</span>,<span class="dv">43</span>,<span class="dv">21</span>,<span class="dv">27</span>)</code></pre>
-<p>If <code>samples</code> is a scalar, it will be recycled for the entire vector, otherwise it should be the same length as the number of rows in the contingency table. If it is longer or shorter, <code>stratifiedNorm()</code> will return an error. I recommend running this once with <code>return.grid = TRUE</code> to double check that the observations were entered correctly.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">stratifiedNorm</span>(<span class="dt">dat =</span> dat, <span class="dt">strata =</span> strata,
+<p>If <code>samples</code> is a scalar, it will be recycled for the entire vector, otherwise it should be the same length as the number of rows in the contingency table. If it is longer or shorter, <code>stratified_norm()</code> will return an error. I recommend running this once with <code>return.grid = TRUE</code> to double check that the observations were entered correctly.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">stratified_norm</span>(<span class="dt">dat =</span> dat, <span class="dt">strata =</span> strata,
                     <span class="dt">observations =</span> samples, <span class="dt">return.grid =</span> <span class="ot">TRUE</span>), <span class="dt">n =</span> <span class="dv">14</span>)
 ##    Gender AgeGrp Relationship Observations
 ## 1  Female  18-39     Coworker           36
@@ -135,11 +135,11 @@ dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class
 ## 13 Female  18-39       Friend           24
 ## 14   Male  18-39       Friend           28</code></pre>
 <p>When we actually sample the data, we can have either the subset returned or the full dataset. Some warnings will be printed if there are less or equal numbers of counts per combination than there are observations in a particular category.</p>
-<pre class="sourceCode r"><code class="sourceCode r">subset.data &lt;-<span class="st"> </span><span class="kw">stratifiedNorm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">FALSE</span>)
+<pre class="sourceCode r"><code class="sourceCode r">subset.data &lt;-<span class="st"> </span><span class="kw">stratified_norm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">FALSE</span>)
 ## Combination for (Female|18-39|Manager) has LESS than count. Returning all observations.
 ## Combination for (Male|18-39|Manager) has LESS than count. Returning all observations.
 
-full.data &lt;-<span class="st"> </span><span class="kw">stratifiedNorm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
+full.data &lt;-<span class="st"> </span><span class="kw">stratified_norm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
 ## Combination for (Female|18-39|Manager) has LESS than count. Returning all observations.
 ## Combination for (Male|18-39|Manager) has LESS than count. Returning all observations.
 
@@ -172,15 +172,15 @@ full.data &lt;-<span class="st"> </span><span class="kw">stratifiedNorm</span>(d
 ##        40-49                     58     22     27      43
 ##        50+                       38     10     25      27</code></pre>
 <p>Note, if you want the sample to be reproducible, you should include a <code>set.seed()</code> command first! Compare:</p>
-<pre class="sourceCode r"><code class="sourceCode r">full.data1 &lt;-<span class="st"> </span><span class="kw">stratifiedNorm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
-full.data2 &lt;-<span class="st"> </span><span class="kw">stratifiedNorm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
+<pre class="sourceCode r"><code class="sourceCode r">full.data1 &lt;-<span class="st"> </span><span class="kw">stratified_norm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
+full.data2 &lt;-<span class="st"> </span><span class="kw">stratified_norm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
 <span class="kw">identical</span>(full.data1, full.data2)
 ## [1] FALSE
 
 <span class="kw">set.seed</span>(<span class="dv">77</span>)
-full.data1 &lt;-<span class="st"> </span><span class="kw">stratifiedNorm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
+full.data1 &lt;-<span class="st"> </span><span class="kw">stratified_norm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
 <span class="kw">set.seed</span>(<span class="dv">77</span>)
-full.data2 &lt;-<span class="st"> </span><span class="kw">stratifiedNorm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
+full.data2 &lt;-<span class="st"> </span><span class="kw">stratified_norm</span>(dat, strata, samples, <span class="dt">full.data =</span> <span class="ot">TRUE</span>)
 <span class="kw">identical</span>(full.data1, full.data2)
 ## [1] TRUE</code></pre>
 </div>

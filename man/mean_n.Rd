@@ -15,9 +15,9 @@ mean_n(df, n)
 A vector of type numeric.
 }
 \description{
-\code{mean_n} returns the row-wise average of a series of vectors. The n
+\code{mean_n} returns the row-wise average of a series of vectors. The n argument
 indicates the minimimum number of items a particpant should have responded
-to in order to be given a mean.
+to in order to be given an average.
 }
 \examples{
 \dontrun{
