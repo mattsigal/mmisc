@@ -43,8 +43,7 @@ random_sample <- function(df, group, size, select = NULL, replace = FALSE, bothS
   df.split <- split(df, df.interaction)
   if (length(size) > 1) {
     if (length(size) != length(df.split))
-      stop("Number of groups is ", length(df.split),
-           " but number of sizes supplied is ", length(size))
+      stop("Number of groups is ", length(df.split), " but number of sizes supplied is ", length(size))
     if (is.null(names(size))) {
       n <- setNames(size, names(df.split))
       message(sQuote("size"), " vector entered as:\n\nsize = structure(c(",
@@ -60,6 +59,7 @@ random_sample <- function(df, group, size, select = NULL, replace = FALSE, bothS
     }
   } else if (size < 1) {
     n <- round(df.table * size, digits = 0)
+    n[which(df.table == 1)] <- rbinom(length(n[which(df.table == 1)]), 1, .5)
   } else if (size >= 1) {
     if (all(df.table >= size) || isTRUE(replace)) {
       n <- setNames(rep(size, length.out = length(df.split)),
