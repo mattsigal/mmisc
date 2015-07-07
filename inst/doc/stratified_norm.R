@@ -20,19 +20,19 @@ str(dat)
 strata = c("Gender", "AgeGrp", "Relationship")
 
 ## ---- strip.white=TRUE, collapse=TRUE------------------------------------
-head(stratifiedNorm(dat, strata, return.grid = TRUE), n = 14)
+head(stratified_norm(dat, strata, return.grid = TRUE), n = 14)
 
 ## ---- strip.white=TRUE, collapse=TRUE------------------------------------
 samples <- c(36,34,72,58,47,38,18,18,15,22,17,10,24,28,11,27,15,25,72,70,52,43,21,27)
 
 ## ---- strip.white=TRUE, collapse=TRUE------------------------------------
-head(stratifiedNorm(dat = dat, strata = strata,
+head(stratified_norm(dat = dat, strata = strata,
                     observations = samples, return.grid = TRUE), n = 14)
 
 ## ---- strip.white=TRUE, collapse=TRUE------------------------------------
-subset.data <- stratifiedNorm(dat, strata, samples, full.data = FALSE)
+subset.data <- stratified_norm(dat, strata, samples, full.data = FALSE)
 
-full.data <- stratifiedNorm(dat, strata, samples, full.data = TRUE)
+full.data <- stratified_norm(dat, strata, samples, full.data = TRUE)
 
 str(subset.data)
 
@@ -42,13 +42,13 @@ str(full.data)
 ftable(xtabs(~Gender + AgeGrp + Relationship, data = subset.data))
 
 ## ---- strip.white=TRUE, collapse=TRUE, warning=FALSE, message=FALSE------
-full.data1 <- stratifiedNorm(dat, strata, samples, full.data = TRUE)
-full.data2 <- stratifiedNorm(dat, strata, samples, full.data = TRUE)
+full.data1 <- stratified_norm(dat, strata, samples, full.data = TRUE)
+full.data2 <- stratified_norm(dat, strata, samples, full.data = TRUE)
 identical(full.data1, full.data2)
 
 set.seed(77)
-full.data1 <- stratifiedNorm(dat, strata, samples, full.data = TRUE)
+full.data1 <- stratified_norm(dat, strata, samples, full.data = TRUE)
 set.seed(77)
-full.data2 <- stratifiedNorm(dat, strata, samples, full.data = TRUE)
+full.data2 <- stratified_norm(dat, strata, samples, full.data = TRUE)
 identical(full.data1, full.data2)
 
