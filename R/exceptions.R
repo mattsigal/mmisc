@@ -65,6 +65,7 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
   } else if (norm == "agegender") {
     Age <- dat[, Age]
     Gender <- dat[, Gender]
+    dat <- round(dat[, names(normedDat)])
     exceptions <- subset(exceptions.list, AGE != "overall" & GENDER != "overall")
     for (i in 1L:nrow(exceptions)) {
       for (j in 1L:nrow(dat)) {
