@@ -63,6 +63,8 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
       out[,exceptions$SCALE[i]] <- ifelse(dat[,exceptions$SCALE[i]] == exceptions$RAW[i], exceptions$SS[i], out[,exceptions$SCALE[i]])
     }
   } else if (norm == "agegender") {
+    Age <- dat[, Age]
+    Gender <- dat[, Gender]
     exceptions <- subset(exceptions.list, AGE != "overall" & GENDER != "overall")
     for (i in 1L:nrow(exceptions)) {
       for (j in 1L:nrow(dat)) {
