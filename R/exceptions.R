@@ -57,16 +57,19 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
 
   out <- normedDat
 
-  if (norm == "overall"){
+  if (norm == "overall") {
     exceptions <- subset(exceptions.list, AGE == "overall" & GENDER == "overall")
-    for (i in 1L:nrow(exceptions)){
+    for (i in 1L:nrow(exceptions)) {
       out[,exceptions$SCALE[i]] <- ifelse(dat[,exceptions$SCALE[i]] == exceptions$RAW[i], exceptions$SS[i], out[,exceptions$SCALE[i]])
     }
-  } else if (norm == "agegender"){
+  } else if (norm == "agegender") {
     exceptions <- subset(exceptions.list, AGE != "overall" & GENDER != "overall")
-    for (i in 1L:nrow(exceptions)){
-      for (j in 1L:nrow(dat)){
-        if(exceptions$AGE[i] == Age[j] & exceptions$GENDER[i] == Gender[j] & dat[j, exceptions$SCALE[i]] == exceptions$RAW[i]){
+    for (i in 1L:nrow(exceptions)) {
+      for (j in 1L:nrow(dat)) {
+        if (is.na(Age[j])) next
+        if (is.na(Gender[j])) next
+        if (is.na(dat[j, exceptions$SCALE[i]])) next
+        if (exceptions$AGE[i] == Age[j] & exceptions$GENDER[i] == Gender[j] & dat[j, exceptions$SCALE[i]] == exceptions$RAW[i]) {
           out[j, exceptions$SCALE[i]] <- exceptions$SS[i]
         }
       }
