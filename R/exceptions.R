@@ -52,9 +52,9 @@
 #' @seealso \code{\link{scoring}}
 #'
 
-exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall", Age = NULL, Gender = NULL, maxVal = 132){
+exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall", AGE = NULL, GENDER = NULL, maxVal = 132){
   if (is.null(exceptions.list)) return("Please supply the list of exception rules to exception.list.")
-
+  dat <- dat
   out <- normedDat
 
   if (norm == "overall") {
@@ -63,8 +63,9 @@ exceptions <- function(dat, normedDat, exceptions.list = NULL, norm = "overall",
       out[,exceptions$SCALE[i]] <- ifelse(dat[,exceptions$SCALE[i]] == exceptions$RAW[i], exceptions$SS[i], out[,exceptions$SCALE[i]])
     }
   } else if (norm == "agegender") {
-    Age <- dat[, Age]
-    Gender <- dat[, Gender]
+
+    Age <- dat[, AGE]
+    Gender <- dat[, GENDER]
     dat <- round(dat[, names(normedDat)])
     exceptions <- subset(exceptions.list, AGE != "overall" & GENDER != "overall")
     for (i in 1L:nrow(exceptions)) {
