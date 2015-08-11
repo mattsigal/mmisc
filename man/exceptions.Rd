@@ -5,7 +5,7 @@
 \title{Apply Exceptions to a Dataframe}
 \usage{
 exceptions(dat, normedDat, exceptions.list = NULL, norm = "overall",
-  Age = NULL, Gender = NULL, maxVal = 132)
+  AGE = NULL, GENDER = NULL, maxVal = 132)
 }
 \arguments{
 \item{dat}{An R dataframe object pertaining to the raw data.}
@@ -16,11 +16,11 @@ exceptions(dat, normedDat, exceptions.list = NULL, norm = "overall",
 
 \item{norm}{A character scalar, either "overall" or "agegender", depending if scoring should be done based upon overall values or age/gender specific norms.}
 
+\item{maxVal}{A scalar indicating the value at which to "cap" scales. All values greater than maxVal are set to maxVal.}
+
 \item{Age}{A character vector of length 1, used to indicate the name of the Age variable in dat.}
 
 \item{Gender}{A character vector of length 1, used to indicate the name of the Gender variable in dat.}
-
-\item{maxVal}{A scalar indicating the value at which to "cap" scales. All values greater than maxVal are set to maxVal.}
 }
 \value{
 An R dataframe object with N rows and K columns, where K is the number of scales included in dat.
