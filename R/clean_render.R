@@ -16,7 +16,7 @@ clean_render <- function(toRender = NULL, outDir = NULL, extension = ".pdf") {
     output <- paste0(toRender, extension)
   } else output <- paste0(outDir, "/", toRender, extension)
   cat('
-      rmarkdown::render("', file, '", output_file = "', output, '")
+      rmarkdown::render("', file,'", output_file = "', output,'", quiet = TRUE)
       ', sep = "", file = "tempRender.R")
   devtools::clean_source('tempRender.R', quiet = TRUE)
   file.remove("tempRender.R")
